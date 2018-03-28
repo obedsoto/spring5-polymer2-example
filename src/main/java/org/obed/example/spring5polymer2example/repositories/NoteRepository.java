@@ -2,7 +2,9 @@ package org.obed.example.spring5polymer2example.repositories;
 
 import org.obed.example.spring5polymer2example.models.Note;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
 
 /**
  * Created by obed on 3/27/18.
@@ -10,4 +12,7 @@ import org.springframework.stereotype.Repository;
 
 public interface NoteRepository extends CrudRepository<Note, Long> {
 
+    Note findOneById(Long noteId);
+
+    List<Note> findAll();
 }

@@ -17,16 +17,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="bower_components/app-layout/demo/sample-content.html">
+<link rel="import" href="web_components/notes-content.html">
 
-<dom-module id="x-app">
+<dom-module id="main-app">
 
   <template>
 
     <style>
 
       app-header {
-        background-color: #00897B;
+        background-color: #3333FF;
         color: #fff;
       }
 
@@ -42,20 +42,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-drawer-layout>
 
-      <app-drawer slot="drawer">
-        <app-toolbar>Getting Started</app-toolbar>
-      </app-drawer>
-
       <app-header-layout>
 
         <app-header slot="header" reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <div main-title>Title</div>
+            <div main-title>My Notes</div>
           </app-toolbar>
         </app-header>
 
-        <sample-content size="100"></sample-content>
+        <notes-content></notes-content>
 
       </app-header-layout>
 
@@ -67,7 +63,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Polymer({
 
-      is: 'x-app'
+      is: 'main-app'
 
     });
 

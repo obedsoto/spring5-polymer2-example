@@ -5,6 +5,11 @@
 # development files
 target/
 
+# database files
+database/*.lck
+database/*.tmp
+database/*.log
+
 # Compiled class file
 *.class
 

@@ -1,0 +1,149 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
+
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
+
+v<link rel="import" href="../bower_components/paper-input/paper-input.html">
+v<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+
+<dom-module id="notes-content">
+
+    <template>
+        <style>
+            .div-style {
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                padding: 16px;
+                margin: 24px;
+                border-radius: 5px;
+                background-color: #fff;
+                color: #757575;
+            }
+
+            .div-add-note-style {
+                margin: 19px;
+            }
+
+            .div-letter-style {
+                display: inline-block;
+                height: 64px;
+                width: 64px;
+                border-radius: 50%;
+                background: #ddd;
+                line-height: 64px;
+                font-size: 30px;
+                color: #555;
+                text-align: center;
+            }
+
+            .div-content-style {
+                font-size: 22px;
+                margin: 16px 0;
+                color: #212121;
+            }
+
+            .small-font {
+                font-size: 16px;
+            }
+
+            .smaller-font {
+                font-size: 12px;
+            }
+
+            .inputs-content {
+                width: 400px;
+            }
+
+        </style>
+        <iron-ajax
+                auto
+                id="ajaxGetAllNotes"
+                url="/api/v1/notes"
+                handle-as="json"
+                last-response={{ajaxAllNotesResponse}}>
+        </iron-ajax>
+
+        <iron-ajax
+                method="POST"
+                id="ajaxPostNotes"
+                url="/api/v1/notes"
+                handle-as="json"
+                content-type="application/json"
+                on-response=_reloadData>
+        </iron-ajax>
+
+        <template is="dom-repeat" items="[[ajaxAllNotesResponse.content]]">
+
+            <div class="div-style">
+                <div class="div-letter-style">[[_firstLetter(item.author)]]</div>
+                <div class="div-content-style ">[[item.content]]</div>
+                <p class="small-font">[[item.author]]</p>
+                <p class="smaller-font">[[item.creationDate]]</p>
+            </div>
+
+        </template>
+        <div class="div-add-note-style">
+            <paper-button on-click="_openDialog" raised class="indigo">ADD NEW NOTE</paper-button>
+        </div>
+
+        <paper-dialog id="dialog">
+            <h2>NEW NOTE</h2>
+            <div class="inputs-content">
+                <paper-input label="author" id="author"></paper-input>
+                <paper-textarea label="note content" id="content" rows="2" required></paper-textarea>
+            </div>
+            <div class="buttons">
+                <paper-button dialog-dismiss>Cancel</paper-button>
+                <paper-button on-click="_addNote" dialog-confirm autofocus>Add Note</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+
+    <script>
+
+    Polymer({
+        is: 'notes-content',
+
+        properties: {
+
+        },
+
+        _firstLetter: function(str) {
+            return str.charAt(0);
+        },
+
+        _openDialog: function() {
+            let self = this;
+            self.$.dialog.open();
+        },
+
+        _addNote: function() {
+            let self = this;
+            let note = {
+                "author": self.$.author.value,
+                "content": self.$.content.value
+            };
+
+
+            self.$.ajaxPostNotes.body = note;
+            self.$.ajaxPostNotes.generateRequest();
+
+        },
+
+        _reloadData: function() {
+            let self = this;
+            self.$.ajaxGetAllNotes.generateRequest();
+        }
+
+
+    });
+
+
+    </script>
+
+</dom-module>
