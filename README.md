@@ -18,3 +18,10 @@ npm install -g bower
 bower install
 
 ```
+
+Using simple layout:
+https://github.com/PolymerElements/app-layout/tree/master/templates/getting-started
+
+
+
+
